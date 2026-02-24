@@ -2,7 +2,7 @@
 
 A **ComfyUI custom node** that adds HTTP API endpoints for media (output/input/temp) so the WorkflowUI application can delete files on the ComfyUI server, browse media, and serve images with optional previews—without adding any graph nodes to the ComfyUI UI.
 
-> **Core application:** [WorkflowUI](https://github.com/your-org/WorkflowUI)
+⚠️ This custom node is a plugin for: [WorkflowUI](https://github.com/jimpi-dev/WorkflowUIPlugin)
 
 ---
 
@@ -12,8 +12,6 @@ A **ComfyUI custom node** that adds HTTP API endpoints for media (output/input/t
 - **View media** — Serve image, video, and audio files with caching; optional compressed image previews (WebP/JPEG or custom size).
 - **List & browse** — Flat file list or one-level folder tree (JSON metadata only, no binary data) for building file-manager UIs.
 - **Capabilities & version info** — Endpoints to detect the plugin and report installed custom node modules/versions for run metadata.
-
-No new nodes appear in ComfyUI; the plugin only registers routes.
 
 ---
 
@@ -30,8 +28,6 @@ No new nodes appear in ComfyUI; the plugin only registers routes.
    ```
 
 2. Restart ComfyUI. A startup banner confirms the plugin loaded.
-
-No extra dependencies; ComfyUI’s existing stack (aiohttp, Pillow) is used.
 
 ---
 
@@ -85,4 +81,4 @@ No extra dependencies; ComfyUI’s existing stack (aiohttp, Pillow) is used.
 
 ## License
 
-See repository license. This plugin is intended for use with the WorkflowUI application.
+See repository license.
