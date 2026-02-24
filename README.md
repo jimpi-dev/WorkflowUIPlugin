@@ -2,7 +2,7 @@
 
 A **ComfyUI custom node** that adds HTTP API endpoints for media (output/input/temp) so the WorkflowUI application can delete files on the ComfyUI server, browse media, and serve images with optional previews—without adding any graph nodes to the ComfyUI UI.
 
-> **Core application:** [WorkflowUI](https://github.com/your-org/WorkflowUI) — *Replace this link with your core repository URL.*
+> **Core application:** [WorkflowUI](https://github.com/your-org/WorkflowUI)
 
 ---
 
