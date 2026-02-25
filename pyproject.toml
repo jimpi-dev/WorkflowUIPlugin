@@ -2,7 +2,7 @@
 name = "WorkflowUIPlugin"
 description = "This custom node is a plugin for: WorkflowUI Application, found here: https://github.com/jimpi-dev/WorkflowUI"
 version = "1.0.1"
-license = "LICENSE"
+license = { file = "LICENSE" }
 
 [project.urls]
 Repository = "https://github.com/jimpi-dev/WorkflowUIPlugin"
