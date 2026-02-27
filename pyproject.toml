@@ -10,5 +10,5 @@ Repository = "https://github.com/jimpi-dev/WorkflowUIPlugin"
 [tool.comfy]
 PublisherId = "jimpi"
 DisplayName = "WorkflowUIPlugin"
-Icon = "icon.png"
+Icon = "https://raw.githubusercontent.com/jimpi-dev/WorkflowUIPlugin/refs/heads/develop/icon.png"
 includes = []
