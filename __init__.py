@@ -7,11 +7,13 @@ Registers API routes so WorkflowUI (and other clients) can:
 - Detect plugin (GET /workflowui/media/capabilities)
 - Installed modules/versions for run metadata (GET /workflowui/version_info)
 
-No graph nodes are added; this is a route-only plugin.
+Adds WorkflowUILink node: configurable inputs/outputs for WorkflowUI schema.
 """
 
 from .version_info import __version__
 from .routes import register_routes
+from .workflow_ui_link import NODE_CLASS_MAPPINGS as LINK_MAPPINGS
+from .workflow_ui_link import NODE_DISPLAY_NAME_MAPPINGS as LINK_DISPLAY_NAMES
 
 register_routes()
 
@@ -25,7 +27,7 @@ print("|" + _banner_text.center(_width - 2) + "|")
 print(_border)
 print()
 
-NODE_CLASS_MAPPINGS = {}
-NODE_DISPLAY_NAME_MAPPINGS = {}
+NODE_CLASS_MAPPINGS = dict(LINK_MAPPINGS)
+NODE_DISPLAY_NAME_MAPPINGS = dict(LINK_DISPLAY_NAMES)
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]

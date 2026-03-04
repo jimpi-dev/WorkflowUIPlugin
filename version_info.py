@@ -4,7 +4,7 @@ import json
 import re
 from pathlib import Path
 
-__version__ = "1.0.4"
+__version__ = "1.0.6"
 
 _PLUGIN_DIR = Path(__file__).resolve().parent
 _CUSTOM_NODES_DIR = _PLUGIN_DIR.parent
