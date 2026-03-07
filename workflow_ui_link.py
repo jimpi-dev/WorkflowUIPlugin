@@ -1,16 +1,3 @@
-"""
-WorkflowUILink: A ComfyUI custom node that defines which form fields WorkflowUI shows.
-
-IMPORTANT - form_label: This is displayed as the header/section title above the inputs in the
-WorkflowUI app. This is the main text users see when filling out the form. Set it to describe
-your inputs (e.g. "Generation parameters", "Image settings").
-
-Configuration:
-- form_label: Header shown above inputs in the WorkflowUI app (displayed as section title)
-- type_0..7: Dropdown to select field type per slot (text, number, seed, image, video, audio, boolean, select)
-- name_0..7: Field name and label shown in the app (use "seed" for master seed binding; reserved convention)
-"""
-
 from __future__ import annotations
 
 import logging
@@ -29,12 +16,10 @@ except ImportError:
 
 MAX_INPUT_SLOTS = 8
 
-# Type options for the per-slot dropdown; empty = unused slot
 TYPE_OPTIONS = ["", "text", "number", "seed", "image", "video", "audio", "boolean", "select"]
 
 
 def _input_field_for_type(slot: int, typ: str) -> str:
-    """Map definition type to actual input field name for binding."""
     if typ == "image":
         return f"input_image_{slot}"
     if typ == "video":
@@ -49,7 +34,6 @@ def _input_field_for_type(slot: int, typ: str) -> str:
 
 
 def _get_media_files(content_types: list[str]) -> list[str]:
-    """Get sorted list of filenames from input directory filtered by content type."""
     try:
         import folder_paths
         input_dir = folder_paths.get_input_directory()
@@ -63,7 +47,6 @@ def _get_media_files(content_types: list[str]) -> list[str]:
 
 
 def _build_input_types() -> dict:
-    """Build INPUT_TYPES with title widgets and file pickers for image/video/audio."""
     try:
         import folder_paths
         input_dir = folder_paths.get_input_directory()
@@ -87,7 +70,6 @@ def _build_input_types() -> dict:
             "placeholder": f"Name and label in app (e.g. 'Positive prompt'; use 'seed' for master seed)",
         })
 
-    # Ensure '' is always first so unused slots can send empty and pass validation
     image_opts = [""] + (image_files or [])
     video_opts = [""] + (video_files or [])
     audio_opts = [""] + (audio_files or [])
@@ -132,7 +114,6 @@ def _build_return_names() -> tuple[str, ...]:
 
 
 def _load_image_from_path(image: str) -> Any:
-    """Load image from filename (ComfyUI input dir) and return IMAGE tensor [1,H,W,3]."""
     if not _HAS_IMAGE_DEPS or not image or not isinstance(image, str):
         return None
     try:
@@ -162,7 +143,6 @@ def _empty_image_placeholder() -> Any:
 
 
 class WorkflowUILink:
-    """Pass-through node: defines app form inputs with per-slot labels and file pickers for media."""
 
     @classmethod
     def INPUT_TYPES(cls) -> dict:
@@ -201,7 +181,6 @@ class WorkflowUILink:
         return tuple(results)
 
 
-# Registration
 NODE_CLASS_MAPPINGS = {
     "WorkflowUILink": WorkflowUILink,
 }
