@@ -314,6 +314,44 @@ async def _handle_list(request: web.Request) -> web.Response:
     return web.json_response({"type": folder_type, "subfolder": subfolder, "files": data})
 
 
+def _batch_output_sizes(groups: list) -> list[int]:
+    result = []
+    for group in groups:
+        if not isinstance(group, list):
+            result.append(0)
+            continue
+        total = 0
+        for ent in group:
+            if not isinstance(ent, dict):
+                continue
+            subfolder = (ent.get("subfolder") or "").strip()
+            filename = (ent.get("filename") or "").strip()
+            if not filename:
+                continue
+            full, err = _resolve_media_path("output", subfolder, filename)
+            if err or not full:
+                continue
+            try:
+                if os.path.isfile(full):
+                    total += os.stat(full).st_size
+            except OSError:
+                pass
+        result.append(total)
+    return result
+
+
+async def _handle_batch_output_sizes(request: web.Request) -> web.Response:
+    try:
+        body = await request.json()
+    except Exception:
+        return web.json_response({"error": "Invalid JSON"}, status=400)
+    groups = body.get("groups") if isinstance(body, dict) else None
+    if not isinstance(groups, list):
+        return web.json_response({"error": "Missing or invalid 'groups' array"}, status=400)
+    sizes = _batch_output_sizes(groups)
+    return web.json_response({"sizes": sizes})
+
+
 def _tree_dir(folder_type: str, subfolder: str) -> tuple[dict | None, str | None]:
     if folder_type not in MEDIA_TYPES:
         return None, "Invalid type"
@@ -511,6 +549,7 @@ def register_routes():
     routes.post("/workflowui/media/upload")(_handle_upload)
     routes.get("/workflowui/media/view")(_handle_view)
     routes.get("/workflowui/media/list")(_handle_list)
+    routes.post("/workflowui/media/batch_output_sizes")(_handle_batch_output_sizes)
     routes.get("/workflowui/media/tree")(_handle_tree)
     routes.get("/workflowui/media/capabilities")(_handle_capabilities)
     routes.get("/workflowui/version_info")(_handle_version_info)
